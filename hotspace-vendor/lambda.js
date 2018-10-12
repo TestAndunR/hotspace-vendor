@@ -4,7 +4,9 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 exports.handler = function (event, context, callback) {
     let vendorName = event.vendorName;
     let promo = event.promoCode;
-    let promoType = event.type;
+    let promoType = event.promoType;
+    let expireDate = event.expireDate;
+    let numberofuser = event.users;
 
     console.log(vendorName, promo)
     ddb.put({
@@ -12,7 +14,9 @@ exports.handler = function (event, context, callback) {
         Item: {
             'promoCode': promo,
             'VendorName': vendorName,
-            'promotionType': promoType
+            'promotionType': promoType,
+            'expireDate': expireDate,
+            'NoofCustomers': numberofuser
         }
     }).promise().then(function (data) {
         console.log(data)
