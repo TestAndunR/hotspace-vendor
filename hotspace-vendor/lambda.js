@@ -2,6 +2,7 @@ let AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function (event, context, callback) {
+
     let vendorName = event.vendorName;
     let promo = event.promoCode;
     let promoType = event.promoType;
@@ -18,13 +19,20 @@ exports.handler = function (event, context, callback) {
             'expireDate': expireDate,
             'NoofCustomers': numberofuser
         }
-    }).promise().then(function (data) {
-        console.log(data)
-        //your logic goes here
-    }).catch(function (err) {
-        //handle error
-        console.log(err)
-    });
-
-    callback(null, 'Successfully executed');
+    },function(err, data){
+        if(err){
+            callback(err, null)
+        } else {
+            let response={
+                "statusCode": 200,
+                "headers": {
+                    // "my_header": "my_value"
+                },
+                "body": data,
+                "isBase64Encoded": false
+            }
+            callback(null,response)
+        }
+    })
+    // callback(null, 'Successfully executed');
 }
