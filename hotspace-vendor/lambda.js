@@ -3,6 +3,8 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function (event, context, callback) {
 
+    console.log(event);
+    // event = JSON.parse(event.body);
     let vendorName = event.vendorName;
     let promo = event.promoCode;
     let promoType = event.promoType;
@@ -28,7 +30,7 @@ exports.handler = function (event, context, callback) {
                 "headers": {
                     // "my_header": "my_value"
                 },
-                "body": data,
+                "body": JSON.stringify(data),
                 "isBase64Encoded": false
             }
             callback(null,response)
